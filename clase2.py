@@ -27,6 +27,8 @@ def fibonacci_I(numero):
         fib_2 = fibonacci
     return fibonacci
 
+
+
 #! fib(n) = fib(n-1) + fib(n-2)
 
 def fibonacci_R(numero):
@@ -43,3 +45,8 @@ print(fibonacci_I(8))
 
 # print(factorial_R(5))
 # print(factorail_I(5))
+
+
+
+
+#! agregar codigo para prueba git
