@@ -46,17 +46,6 @@ def invertir_cadena(cadena):#! 6
 
 # print(vector[:-1])
 
-# log2 (6) = 2^n = 2
-# log2 (8) = 2^n = 3 
-
-# 8 / 2 = 4     1 + 2 = 3
-# 4 / 2 = 2     1 + 1 = 2
-# 2 / 2 = 1     1 + 0 = 1
-# 1 / 1 = 0.5   0
- 
-# 6 / 2 = 3             1 + 1 = 1
-# 3 / 2 = 1/5           1 + 0 = 1
-# 1.5 / 2 = 0           0
 
 def logaritmo(numero, base):
     if(numero / base < 1):
@@ -65,3 +54,41 @@ def logaritmo(numero, base):
         return 1 + logaritmo(numero/base , base)
 
 print(logaritmo(6, 2))
+
+
+def invertir_numero(numero):
+    """Invertir un número."""
+    if(numero < 10):
+        return numero
+    else:
+        return ((numero % 10) * 10 ** len(str(numero//10))) + invertir_numero(numero // 10)
+
+
+
+print(invertir_numero(791))
+
+def sumar_digitos(numero):
+    """Invertir un número."""
+    if(numero < 10):
+        return numero
+    else:
+        return (numero % 10) + sumar_digitos(numero // 10)
+ 
+print(sumar_digitos(791))
+
+def raizcuadrada(n1, n2):
+    if((n1 * n1) <= n2):
+        return n1
+    else:
+        return raizcuadrada(n1-1, n2)
+
+
+def raiz(n):
+    if n == 0:
+        return n
+    else:
+        return raizcuadrada(n, n)
+
+
+
+print(raiz(10))

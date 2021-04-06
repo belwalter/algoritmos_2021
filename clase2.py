@@ -5,7 +5,7 @@
 
 def factorail_I(numero):
     factorial = 1
-    for i in range(2,6):
+    for i in range(2,numero+1):
         factorial = factorial * i
     return factorial
 
@@ -22,6 +22,7 @@ def fibonacci_I(numero):
     fib_2 = 1
     fibonacci = 0
     for i in range(2, numero+1):
+        print("iterativo")
         fibonacci = fib_1 + fib_2
         fib_1 = fib_2
         fib_2 = fibonacci
@@ -35,16 +36,19 @@ def fibonacci_R(numero):
     if(numero == 0 or numero == 1):
         return numero
     else:
+        print("recursivo")
         return fibonacci_R(numero-1) + fibonacci_R(numero-2)
 
 
-print(fibonacci_R(8))
-print(fibonacci_I(8))
+# print(fibonacci_I(10))
+# print(fibonacci_R(10))
 
 
 
-# print(factorial_R(5))
-# print(factorail_I(5))
+
+print(factorail_I(30))
+a =input()
+print(factorial_R(30))
 
 
 
