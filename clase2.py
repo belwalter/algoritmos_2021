@@ -46,11 +46,24 @@ def fibonacci_R(numero):
 
 
 
-print(factorail_I(30))
-a =input()
-print(factorial_R(30))
+# print(factorail_I(30))
+# a =input()
+# print(factorial_R(30))
 
 
 
 
 #! agregar codigo para prueba git
+
+
+vector = ["a", "b", "c"]
+
+for i in vector:
+    print(i)
+
+for i in range(0, len(vector)):
+    print(i, vector[i])
+
+
+
+#! XI  IX
