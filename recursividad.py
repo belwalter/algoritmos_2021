@@ -74,7 +74,7 @@ def sumar_digitos(numero):
     else:
         return (numero % 10) + sumar_digitos(numero // 10)
  
-print(sumar_digitos(791))
+# print(sumar_digitos(791))
 
 def raizcuadrada(n1, n2):
     if((n1 * n1) <= n2):
@@ -131,6 +131,120 @@ def busqueda_binaria(vector, buscado, inicio, fin):
         return -1
 
 
-quicksort(datos,0, len(datos)-1)
-print(datos)
-print(busqueda_binaria(datos, 8, 0, len(datos)-1))
+# quicksort(datos,0, len(datos)-1)
+# print(datos)
+# pos = busqueda_binaria(datos, 100, 0, len(datos)-1)
+# if(pos > -1):
+#     print('esta')
+# else:
+#     print('no esta')
+
+
+# laberinto = [ [0, 0, 1, 0, 0],
+#               [1, 0, 0, 0, 1],
+#               [1, 0, 1, 0, 0],
+#               [0, 0, 1, 1, 1],
+#               [0, 0, 0, 0, 0],
+#             ]
+
+#! int, float, string 
+
+datos = [1, 2, 3, 4, 5, 6, 7, 8, 9]
+mochila = ['Pan', 'Capa', 'Sable de luz', 'otro']
+
+def usar_fuerza(mochila, pos):
+    if(pos< len(mochila)):
+        if(mochila[pos] == 'Sable de luz'):
+            return pos
+        else:
+            return usar_fuerza(mochila, pos+1)
+    else:
+        return -1
+
+# print(usar_fuerza(mochila, 0))
+
+def barriro(vector):
+    if(len(vector)>0):
+        print(vector[0])
+        barriro(vector[1:])
+
+
+
+def salida_laberinto(matriz, x, y, caminos=[]):
+    """Salida del laberinto."""
+    if(x >= 0 and x <= len(matriz)-1) and (y >= 0 and y <= len(matriz[0])-1):
+        if(matriz[x][y] == 2):
+            caminos.append([x, y])
+            print("Saliste del laberinto")
+            print(caminos)
+            caminos.pop()
+        elif(matriz[x][y] == 1):
+            matriz[x][y] = 3
+            caminos.append([x, y])
+            # print("mover este")
+            salida_laberinto(matriz, x, y+1, caminos)
+            # print("mover oeste")
+            salida_laberinto(matriz, x, y-1, caminos)
+            # print("mover norte")
+            salida_laberinto(matriz, x-1, y, caminos)
+            # print("mover sur")
+            salida_laberinto(matriz, x+1, y, caminos)
+            caminos.pop()
+            matriz[x][y] = 1
+
+
+lab = [[1, 1, 1, 1, 1, 1, 1],
+       [0, 0, 0, 0, 1, 0, 1],
+       [1, 1, 1, 0, 1, 0, 1],
+       [1, 0, 1, 1, 1, 1, 1],
+       [1, 0, 0, 0, 0, 0, 0],
+       [1, 1, 1, 1, 1, 1, 2]]
+    
+salida_laberinto(lab, 0, 0)
+
+
+
+
+# barriro(datos)
+
+
+
+# def prueba(num1, num2, cad, vector):
+#     num1 = num2 * 2
+#     print(num1)
+#     cad = "mundo"
+#     vector[0] = 100
+
+
+# num1 = 2
+# num2 = 5
+# cadena = "hola"
+
+# prueba(num1, num2, cadena, datos)
+
+# print(num1, num2, cadena)
+# print(datos)
+
+# num1 = 1
+# num2 = num1
+# num2 = num2 + 3
+
+# print(num1, num2)
+
+# lista1 = {'a': True}
+# lista2 = {'a': True}
+
+# # print(lista1 == lista2)
+
+# class Persona(object):
+
+#     edad = None
+
+
+# num1 = Persona()
+# num1.edad = 10
+
+# num2 = Persona()
+# num2.edad = 10
+
+# print(num1 == num2)
