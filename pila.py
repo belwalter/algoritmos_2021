@@ -7,16 +7,34 @@ class Pila(object):
     def apilar(self, dato):
         self.__elementos.append(dato)
 
+    def desapilar(self):
+        return self.__elementos.pop()
+    
+    def pila_vacia(self):
+        return len(self.__elementos) == 0
 
+    def tamanio(self):
+        return len(self.__elementos)
 
+# from random import randint
 
+# pila = Pila()
+# pila_aux = Pila()
 
-pila = Pila()
-pila.apilar(5)
-pila.apilar(7)
-pila.apilar(9)
-pila.apilar(3)
+# for i in range(0, 10):
+#     pila.apilar(randint(0, 100))
 
+# print('cantidad de elementos', pila.tamanio())
 
+# while(not pila.pila_vacia()):
+#     x = pila.desapilar()
+#     pila_aux.apilar(x)
+#     print(x)
 
-print(pila.__elementos)
+# print()
+# while(not pila_aux.pila_vacia()):
+#     x = pila_aux.desapilar()
+#     pila.apilar(x)
+
+# print()
+# print(pila.tamanio())
