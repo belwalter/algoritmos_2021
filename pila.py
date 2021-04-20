@@ -16,6 +16,9 @@ class Pila(object):
     def tamanio(self):
         return len(self.__elementos)
 
+    def elemento_cima(self):
+        return self.__elementos[-1]
+
 # from random import randint
 
 # pila = Pila()
