@@ -3,6 +3,7 @@ class Pila(object):
     
     def __init__(self):
         self.__elementos = []
+        self.__nombre = ''
 
     def apilar(self, dato):
         self.__elementos.append(dato)
@@ -18,6 +19,7 @@ class Pila(object):
 
     def elemento_cima(self):
         return self.__elementos[-1]
+
 
 # from random import randint
 

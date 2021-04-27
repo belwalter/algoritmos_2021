@@ -117,44 +117,91 @@ class Traje(object):
     def __str__(self):
         return self.modelo+' - '+self.pelicula+' - '+self.estado
 
-pila = Pila()
-pila_aux = Pila()
+# pila = Pila()
+# pila_aux = Pila()
 
-traje = Traje('Mark III', 'Avengers I', 'Dañado')
-pila.apilar(traje)
-traje = Traje('Mark I', 'Iron Man I', 'Destruido')
-pila.apilar(traje)
-traje = Traje('Mark XLIV', 'Capitan America: Civil War', 'Dañado')
-pila.apilar(traje)
-traje = Traje('Mark III', 'Iron Man I', 'Impecable')
-pila.apilar(traje)
-traje = Traje('Mark XXV', 'Avengers II', 'Dañado')
-pila.apilar(traje)
+# traje = Traje('Mark III', 'Avengers I', 'Dañado')
+# pila.apilar(traje)
+# traje = Traje('Mark I', 'Iron Man I', 'Destruido')
+# pila.apilar(traje)
+# traje = Traje('Mark XLIV', 'Capitan America: Civil War', 'Dañado')
+# pila.apilar(traje)
+# traje = Traje('Mark III', 'Iron Man I', 'Impecable')
+# pila.apilar(traje)
+# traje = Traje('Mark XXV', 'Avengers II', 'Dañado')
+# pila.apilar(traje)
 
-control_traje = False
+# control_traje = False
 
-while(not pila.pila_vacia()):
-    x = pila.desapilar()
-    # punto a
-    if(x.modelo == 'Mark XLIV'):
-        print('el moelo Mark XLIV fue utilizado en', x.pelicula)
-    #punto b
-    if(x.estado == 'Dañado'):
-        print('el modelo', x.modelo, 'resulto dañado')
-    #punto c
-    if(x.estado == 'Destruido'):
-        print('el modelo', x.modelo, 'resulto destruido')
+# while(not pila.pila_vacia()):
+#     x = pila.desapilar()
+#     # punto a
+#     if(x.modelo == 'Mark XLIV'):
+#         print('el moelo Mark XLIV fue utilizado en', x.pelicula)
+#     #punto b
+#     if(x.estado == 'Dañado'):
+#         print('el modelo', x.modelo, 'resulto dañado')
+#     #punto c
+#     if(x.estado == 'Destruido'):
+#         print('el modelo', x.modelo, 'resulto destruido')
+#     else:
+#         pila_aux.apilar(x)
+#     if(x.pelicula == 'Capitan America: Civil War' or x.pelicula == 'Spiderman'):
+#         print(x.modelo, 'es utilizado en las peliculas indicadas')
+
+# while(not pila_aux.pila_vacia()):
+#     pila.apilar(pila_aux.desapilar())
+
+# # if(not control_traje):
+# #     traje = Traje('Mark LXXXV', 'Avengers II', 'Dañado')
+# #     pila.apilar(traje)
+
+# while(not pila.pila_vacia()):
+#     print(pila.desapilar())
+
+
+pila_vocales = Pila()
+pila_consonantes = Pila()
+pila_simbolos = Pila()
+
+parrafo = """Dada una pila de objetos de una oficina de los que se dispone de su nombre y peso (por ejemplo monitor 1 kg, teclado 0.25 kg, silla 7 kg, etc.), ordenar dicha pila de acuerdo a su peso –del
+objeto más liviano al más pesado–. Solo pueden utilizar pilas auxiliares como estructuras extras, no se pueden utilizar métodos de ordenamiento"""
+
+vocales = ['a', 'e', 'i', 'o', 'u']
+
+
+for caracter in parrafo:
+    if(caracter.lower() in vocales):
+        pila_vocales.apilar(caracter)
+    elif(ord(caracter.lower())>97 and ord(caracter.lower())<=122):
+        pila_consonantes.apilar(caracter)
     else:
-        pila_aux.apilar(x)
-    if(x.pelicula == 'Capitan America: Civil War' or x.pelicula == 'Spiderman'):
-        print(x.modelo, 'es utilizado en las peliculas indicadas')
+        pila_simbolos.apilar(caracter)
 
-while(not pila_aux.pila_vacia()):
-    pila.apilar(pila_aux.desapilar())
+#! punto a
+print('cantidad de vocales', pila_vocales.tamanio())
+print('cantidad de consonantes', pila_consonantes.tamanio())
+print('cantidad de simbolos', pila_simbolos.tamanio())
 
-# if(not control_traje):
-#     traje = Traje('Mark LXXXV', 'Avengers II', 'Dañado')
-#     pila.apilar(traje)
+#! punto e
+print('cantidad de vocales y simbolos son iguales ?', pila_vocales.tamanio()==pila_simbolos.tamanio())
 
-while(not pila.pila_vacia()):
-    print(pila.desapilar())
+#! punto b y d
+cantidad_numeros = 0
+cantidad_blancos = 0
+while(not pila_simbolos.pila_vacia()):
+    letra = pila_simbolos.desapilar()
+    if(letra ==' '):
+        cantidad_blancos +=1
+    elif(ord(letra)>=48 and ord(letra)<=57):
+        cantidad_numeros += 1
+
+print('cantidad de espacios en blanco', cantidad_blancos)
+print('cantidad de numeros', cantidad_numeros)
+
+#! punto f letra z
+while(not pila_consonantes.pila_vacia()):
+    letra = pila_consonantes.desapilar()
+    if(letra.lower()=='z'):
+        print('hay una z')
+        # break
