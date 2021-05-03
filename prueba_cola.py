@@ -49,27 +49,79 @@ cola_datos = Cola()
 #     print(dato)
 #     cantidad_elemento += 1
 
-from pila import Pila
-datos = Cola()
-datos_aux = Pila()
+# from pila import Pila
+# datos = Cola()
+# datos_aux = Pila()
 
-for i in range(0, 10):
-    num = randint(0, 100)
-    datos.arribo(num)
-    print(num)
+# for i in range(0, 10):
+#     num = randint(0, 100)
+#     datos.arribo(num)
+#     print(num)
 
-print()
+# print()
 
-while(not datos.cola_vacia()):
-    dato = datos.atencion()
-    datos_aux.apilar(dato)
+# while(not datos.cola_vacia()):
+#     dato = datos.atencion()
+#     datos_aux.apilar(dato)
 
-while(not datos_aux.pila_vacia()):
-    datos.arribo(datos_aux.desapilar())
+# while(not datos_aux.pila_vacia()):
+#     datos.arribo(datos_aux.desapilar())
 
 
-cantidad_elemento = 0
-while(cantidad_elemento < datos.tamanio()):
-    dato = datos.mover_final()
-    print(dato)
-    cantidad_elemento += 1
+# cantidad_elemento = 0
+# while(cantidad_elemento < datos.tamanio()):
+#     dato = datos.mover_final()
+#     print(dato)
+#     cantidad_elemento += 1
+
+
+def es_primo(numero):
+    cantidad = 0
+    for i in range(1, numero+1):
+        if(numero % i == 0):
+            cantidad += 1
+    return cantidad == 2
+
+# cola_numeros = Cola()
+# from random import randint
+
+# for i in range(0, 20):
+#     cola_numeros.arribo(randint(2, 100))
+
+# cantidad = cola_numeros.tamanio()
+# i = 0
+# while(i < cantidad):
+#     numero = cola_numeros.atencion()
+#     if(es_primo(numero)):
+#         cola_numeros.arribo(numero)
+#     else:
+#         print(numero)
+#     i += 1
+# print()
+# while(not cola_numeros.cola_vacia()):
+#     print(cola_numeros.atencion())
+
+
+cola_uno = Cola()
+cola_dos = Cola()
+cola_aux = Cola()
+from random import randint
+
+for i in range(0, 20):
+    cola_uno.arribo(randint(2, 100))
+    cola_dos.arribo(randint(2, 100))
+
+cantidad = 0 
+
+while(not cola_uno.cola_vacia()):
+    numero1 = cola_uno.atencion()
+    while(not cola_dos.cola_vacia()):
+        numero2 = cola_dos.atencion()
+        if(numero1 == numero2):
+            cantidad += 1
+        cola_aux.arribo(numero2)
+    while(not cola_aux.cola_vacia()):
+        cola_dos.arribo(cola_aux.atencion())
+    
+
+print(cantidad)

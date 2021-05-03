@@ -4,7 +4,7 @@ from pila import Pila
 from random import randint
 
 # pila_datos = Pila()
-# pila_aux = Pila()
+# # pila_aux = Pila()
 
 # for i in range(0, 100):
 #     num = randint(1, 100)
