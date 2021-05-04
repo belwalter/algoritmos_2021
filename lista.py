@@ -34,7 +34,7 @@ class Lista(object):
         self.__elementos.pop(pos)
         self.insertar(nuevo_valor)
     
-    def busqueda(self, buscado, criterio=None):
+    def busqueda(self, buscado, criterio=None, clave=None, criterio_clave=None):
         pos = -1
         primero = 0
         ultimo = len(self.__elementos)
@@ -47,13 +47,23 @@ class Lista(object):
             else:
                 primero = medio + 1
 
+        if(pos != -1 and clave is not None and self.__elementos[pos][criterio_clave] != clave):
+            while(self.__criterio(self.__elementos[pos], criterio) == self.__criterio(self.__elementos[pos-1], criterio)):
+                pos -= 1
+            
+            while(self.__elementos[pos][criterio_clave] != clave and 
+                self.__criterio(self.__elementos[pos], criterio) == self.__criterio(self.__elementos[pos+1], criterio)):
+                pos += 1
+            
+            if(self.__elementos[pos][criterio_clave] != clave):
+                pos = -1
+
         return pos
+
+        # [1, 2, 3, 4, 4, 4, 5, 6,7]
     
     def obtener_elemento(self, pos):
         return self.__elementos[pos]
-    
-    # def modificar_elemento(self, pos, nuevo_valor):
-    #     self.__elementos[pos] = nuevo_valor
 
     def lista_vacia(self):
         return len(self.__elementos) == 0
@@ -64,6 +74,9 @@ class Lista(object):
     def barrido(self):
         for elemento in self.__elementos:
             print(elemento)
+    
+    def ordenar(self, criterio):
+        pass
 
 
 from random import randint
@@ -87,14 +100,14 @@ print(lista_personas.busqueda('juan', 'name'))
 # for i in range(0, 10):
 #     lista_num.insertar(randint(0, 100))
 
+# lista_num.barrido()
 # print()
 # numero = int(input('ingrese valor a buscar '))
-# pos = lista_num.busqueda(numero)
+# print(lista_num.busqueda(numero))
 
 
 # lista_num.modificar_elemento(pos, 43)
 # print()
-# lista_num.barrido()
 # numero = int(input('ingrese valor a eliminar '))
 # print(lista_num.eliminar(numero))
 # print()
