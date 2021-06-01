@@ -4,7 +4,7 @@ class Lista(object):
     """crea un objeto de tipo lista"""
 
     def __init__(self):
-        self.__elementos= []
+        self.__elementos = []
     
     def __criterio(self, dato, criterio):
         if(criterio == None):
@@ -12,7 +12,7 @@ class Lista(object):
         else:
             return dato[criterio]
 
-    def insertar(self, dato, criterio=None):#! tener en cuenta que la insercion es ordenada
+    def insertar(self, dato, criterio=None): #! tener en cuenta que la insercion es ordenada
         if(len(self.__elementos) == 0):
             self.__elementos.append(dato)
         elif(self.__criterio(dato, criterio) < self.__criterio(self.__elementos[0], criterio)):
@@ -21,19 +21,21 @@ class Lista(object):
             pos = 0
             while(pos < len(self.__elementos) and self.__criterio(dato, criterio)>=self.__criterio(self.__elementos[pos], criterio)):
                 pos +=1 
-            self.__elementos.insert(pos, dato)
-    
-    def eliminar(self, dato):
-        if(dato in self.__elementos):
-            self.__elementos.remove(dato)
-            return dato
+            self.__elementos.insert(pos, dato) 
+
+
+    def eliminar(self, dato, criterio=None, clave=None, criterio_clave=None):
+        pos = self.busqueda(dato, criterio, clave, criterio_clave)
+        if(pos != -1):
+            return self.__elementos.pop(pos)
         else:
             return None
-    
+
+
     def modificar_elemento(self, pos, nuevo_valor):
         self.__elementos.pop(pos)
         self.insertar(nuevo_valor)
-    
+
     def busqueda(self, buscado, criterio=None, clave=None, criterio_clave=None):
         pos = -1
         primero = 0
@@ -77,6 +79,17 @@ class Lista(object):
     def barrido(self):
         for elemento in self.__elementos:
             print(elemento)
+    
+    def barrido_lista_autos(self):
+        for elemento in self.__elementos:
+            print(elemento)
+            print('autos:')
+            elemento['autos'].barrido()
+
+    # def barrido(self):
+    #     for elemento in self.__elementos:
+    #         for valor in elemento.values():
+    #             print(valor)
         
     def barrido_eliminando(self, datos_eliminar):
 
@@ -89,31 +102,31 @@ class Lista(object):
 
 
 from random import randint
-lista_vocales = Lista()
-lista_num = Lista()
-lista_par = Lista()
-lista_impar = Lista()
+# lista_vocales = Lista()
+# lista_num = Lista()
+# lista_par = Lista()
+# lista_impar = Lista()
 lista_personas = Lista()
-lista_uno = Lista()
-lista_dos = Lista()
+# lista_uno = Lista()
+# lista_dos = Lista()
 
-for i in range(5):
-    lista_uno.insertar(i)
-    lista_dos.insertar(randint(1,10))
+# for i in range(5):
+#     lista_uno.insertar(i)
+#     lista_dos.insertar(randint(1,10))
 
-print('lista uno')
-lista_uno.barrido()
-print()
-print('lista dos')
-lista_dos.barrido()
-print()
+# print('lista uno')
+# lista_uno.barrido()
+# print()
+# print('lista dos')
+# lista_dos.barrido()
+# print()
 
-for i in range(lista_dos.tamanio()):
-    num = lista_dos.obtener_elemento(i)
-    if(lista_uno.busqueda(num) == -1):
-        lista_uno.insertar(num)
+# for i in range(lista_dos.tamanio()):
+#     num = lista_dos.obtener_elemento(i)
+#     if(lista_uno.busqueda(num) == -1):
+#         lista_uno.insertar(num)
 
-lista_uno.barrido()
+# lista_uno.barrido()
 
 
 # for i in range(20):
@@ -155,25 +168,44 @@ lista_uno.barrido()
 # print()
 # lista_vocales.barrido()
 
-# datos = [
-#     {'name':'juan','edad': 34, 'provincia' : 'chaco', 'dni': 32},
-#     {'name':'juan','edad': 80, 'provincia' : 'misiones', 'dni': 20},
-#     {'name':'maria','edad': 18, 'provincia' : 'entre rios', 'dni': 28},
-#     {'name':'julieta','edad': 18, 'provincia' : 'catamarca', 'dni': 45},
-#     {'name':'carlos','edad': 40, 'provincia' : 'entre rios', 'dni': 38},
+datos = [
+    {'name':'juan','edad': 34, 'provincia' : 'chaco', 'dni': 32, 'autos': Lista()},
+    {'name':'juan','edad': 80, 'provincia' : 'misiones', 'dni': 20, 'autos': Lista()},
+    {'name':'maria','edad': 18, 'provincia' : 'entre rios', 'dni': 28, 'autos': Lista()},
+    {'name':'julieta','edad': 18, 'provincia' : 'catamarca', 'dni': 45, 'autos': Lista()},
+    {'name':'carlos','edad': 40, 'provincia' : 'entre rios', 'dni': 38, 'autos': Lista()},
 
-# ]
+]
 
 # for i in range(10):
 #     persona = {}
 #     persona['name'] = input('ingrese nombre ')
 #     persona['edad'] = int(input('ingrese edad '))
 #     # faltan campos
-#     lista_personas.insertar(persona, 'edad')
+    # lista_personas.insertar(persona, 'name')
 
-# for persona in datos:
-#     lista_personas.insertar(persona, 'edad')
+for persona in datos:
+    lista_personas.insertar(persona, 'name')
 
+auto1 = {'modelo': 2020, 'marca': 'fiat', 'patente': 'abc123'}
+auto2 = {'modelo': 2020, 'marca': 'ford', 'patente': 'abc456'}
+auto3 = {'modelo': 2020, 'marca': 'ford', 'patente': 'abc789'}
+
+pos = lista_personas.busqueda('maria', 'name', 28, 'dni')
+if(pos != -1):
+    lista_personas.obtener_elemento(pos)['autos'].insertar(auto1, 'marca')
+    lista_personas.obtener_elemento(pos)['autos'].insertar(auto2, 'marca')
+    lista_personas.obtener_elemento(pos)['autos'].insertar(auto3, 'marca')
+
+pos_auto = lista_personas.obtener_elemento(pos)['autos'].busqueda('ford', 'marca', 'abc789', 'patente')
+if(pos_auto != -1):
+    lista_personas.obtener_elemento(pos)['autos'].obtener_elemento(pos_auto)['modelo'] = 2013
+
+lista_personas.barrido_lista_autos()
+
+
+# print('elemento eliminado', lista_personas.eliminar('juan', 'name', 38, 'dni'))
+# print()
 # lista_personas.barrido()
 
 # print()
