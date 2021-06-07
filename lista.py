@@ -1,4 +1,29 @@
 
+def __criterio(dato, criterio):
+    if(criterio == None):
+        return dato
+    else:
+        return dato[criterio]
+
+def quicksort(vector, inicio, fin, criterio):
+    primero = inicio
+    ultimo = fin -1
+    pivote = fin
+    while(primero < ultimo):
+        while(__criterio(vector[primero], criterio) < __criterio(vector[pivote], criterio) and primero <= ultimo):
+            primero += 1
+        while(__criterio(vector[ultimo], criterio) > __criterio(vector[pivote], criterio) and ultimo >= primero):
+            ultimo -= 1
+        
+        if(primero < ultimo):
+            vector[primero], vector[ultimo] = vector[ultimo], vector[primero]
+    if(__criterio(vector[pivote], criterio) < __criterio(vector[primero], criterio)):
+        vector[primero], vector[pivote] = vector[pivote], vector[primero]
+
+    if(inicio < primero):
+        quicksort(vector, inicio, primero -1, criterio)
+    if(fin > primero):
+        quicksort(vector, primero + 1, fin, criterio)
 
 class Lista(object):
     """crea un objeto de tipo lista"""
@@ -80,6 +105,15 @@ class Lista(object):
         for elemento in self.__elementos:
             print(elemento)
     
+    def barrido_jedi(self):
+        for elemento in self.__elementos:
+            print(elemento['name'])
+    
+    def barrido_green(self):
+        for elemento in self.__elementos:
+            if('green' in elemento['lightsaber_color']):
+                print(elemento['name'])
+    
     def barrido_lista_autos(self):
         for elemento in self.__elementos:
             print(elemento)
@@ -98,7 +132,7 @@ class Lista(object):
                 self.__elementos.remove(elemento)
     
     def ordenar(self, criterio):
-        pass
+        quicksort(self.__elementos, 0, len(self.__elementos)-1, criterio)
 
 
 from random import randint
@@ -184,24 +218,24 @@ datos = [
 #     # faltan campos
     # lista_personas.insertar(persona, 'name')
 
-for persona in datos:
-    lista_personas.insertar(persona, 'name')
+# for persona in datos:
+#     lista_personas.insertar(persona, 'name')
 
-auto1 = {'modelo': 2020, 'marca': 'fiat', 'patente': 'abc123'}
-auto2 = {'modelo': 2020, 'marca': 'ford', 'patente': 'abc456'}
-auto3 = {'modelo': 2020, 'marca': 'ford', 'patente': 'abc789'}
+# auto1 = {'modelo': 2020, 'marca': 'fiat', 'patente': 'abc123'}
+# auto2 = {'modelo': 2020, 'marca': 'ford', 'patente': 'abc456'}
+# auto3 = {'modelo': 2020, 'marca': 'ford', 'patente': 'abc789'}
 
-pos = lista_personas.busqueda('maria', 'name', 28, 'dni')
-if(pos != -1):
-    lista_personas.obtener_elemento(pos)['autos'].insertar(auto1, 'marca')
-    lista_personas.obtener_elemento(pos)['autos'].insertar(auto2, 'marca')
-    lista_personas.obtener_elemento(pos)['autos'].insertar(auto3, 'marca')
+# pos = lista_personas.busqueda('maria', 'name', 28, 'dni')
+# if(pos != -1):
+#     lista_personas.obtener_elemento(pos)['autos'].insertar(auto1, 'marca')
+#     lista_personas.obtener_elemento(pos)['autos'].insertar(auto2, 'marca')
+#     lista_personas.obtener_elemento(pos)['autos'].insertar(auto3, 'marca')
 
-pos_auto = lista_personas.obtener_elemento(pos)['autos'].busqueda('ford', 'marca', 'abc789', 'patente')
-if(pos_auto != -1):
-    lista_personas.obtener_elemento(pos)['autos'].obtener_elemento(pos_auto)['modelo'] = 2013
+# pos_auto = lista_personas.obtener_elemento(pos)['autos'].busqueda('ford', 'marca', 'abc789', 'patente')
+# if(pos_auto != -1):
+#     lista_personas.obtener_elemento(pos)['autos'].obtener_elemento(pos_auto)['modelo'] = 2013
 
-lista_personas.barrido_lista_autos()
+# lista_personas.barrido_lista_autos()
 
 
 # print('elemento eliminado', lista_personas.eliminar('juan', 'name', 38, 'dni'))
