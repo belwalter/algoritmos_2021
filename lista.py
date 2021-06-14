@@ -1,6 +1,6 @@
 
 def __criterio(dato, criterio):
-    if(criterio == None):
+    if(criterio is None):
         return dato
     else:
         return dato[criterio]
@@ -10,11 +10,10 @@ def quicksort(vector, inicio, fin, criterio):
     ultimo = fin -1
     pivote = fin
     while(primero < ultimo):
-        while(__criterio(vector[primero], criterio) < __criterio(vector[pivote], criterio) and primero <= ultimo):
+        while(__criterio(vector[primero], criterio) <= __criterio(vector[pivote], criterio) and primero <= ultimo):
             primero += 1
         while(__criterio(vector[ultimo], criterio) > __criterio(vector[pivote], criterio) and ultimo >= primero):
             ultimo -= 1
-        
         if(primero < ultimo):
             vector[primero], vector[ultimo] = vector[ultimo], vector[primero]
     if(__criterio(vector[pivote], criterio) < __criterio(vector[primero], criterio)):
@@ -57,9 +56,9 @@ class Lista(object):
             return None
 
 
-    def modificar_elemento(self, pos, nuevo_valor):
+    def modificar_elemento(self, pos, nuevo_valor, criterio=None):
         self.__elementos.pop(pos)
-        self.insertar(nuevo_valor)
+        self.insertar(nuevo_valor, criterio)
 
     def busqueda(self, buscado, criterio=None, clave=None, criterio_clave=None):
         pos = -1
@@ -107,7 +106,7 @@ class Lista(object):
     
     def barrido_jedi(self):
         for elemento in self.__elementos:
-            print(elemento['name'])
+            print(elemento['name'], elemento['species'])
     
     def barrido_green(self):
         for elemento in self.__elementos:
@@ -135,12 +134,12 @@ class Lista(object):
         quicksort(self.__elementos, 0, len(self.__elementos)-1, criterio)
 
 
-from random import randint
+# from random import randint
 # lista_vocales = Lista()
 # lista_num = Lista()
 # lista_par = Lista()
 # lista_impar = Lista()
-lista_personas = Lista()
+# lista_personas = Lista()
 # lista_uno = Lista()
 # lista_dos = Lista()
 
@@ -202,14 +201,14 @@ lista_personas = Lista()
 # print()
 # lista_vocales.barrido()
 
-datos = [
-    {'name':'juan','edad': 34, 'provincia' : 'chaco', 'dni': 32, 'autos': Lista()},
-    {'name':'juan','edad': 80, 'provincia' : 'misiones', 'dni': 20, 'autos': Lista()},
-    {'name':'maria','edad': 18, 'provincia' : 'entre rios', 'dni': 28, 'autos': Lista()},
-    {'name':'julieta','edad': 18, 'provincia' : 'catamarca', 'dni': 45, 'autos': Lista()},
-    {'name':'carlos','edad': 40, 'provincia' : 'entre rios', 'dni': 38, 'autos': Lista()},
+# datos = [
+#     {'name':'juan','edad': 34, 'provincia' : 'chaco', 'dni': 32, 'autos': Lista()},
+#     {'name':'juan','edad': 80, 'provincia' : 'misiones', 'dni': 20, 'autos': Lista()},
+#     {'name':'maria','edad': 18, 'provincia' : 'entre rios', 'dni': 28, 'autos': Lista()},
+#     {'name':'julieta','edad': 18, 'provincia' : 'catamarca', 'dni': 45, 'autos': Lista()},
+#     {'name':'carlos','edad': 40, 'provincia' : 'entre rios', 'dni': 38, 'autos': Lista()},
 
-]
+# ]
 
 # for i in range(10):
 #     persona = {}
