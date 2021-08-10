@@ -108,6 +108,11 @@ class Lista(object):
         for elemento in self.__elementos:
             print(elemento['name'], elemento['species'])
     
+    def barrido_stormtrooper(self, numero):
+        for elemento in self.__elementos:
+            if(elemento['codigo'] % 1000 == numero):
+                print(elemento['legion'], elemento['codigo'])
+    
     def barrido_green(self):
         for elemento in self.__elementos:
             if('green' in elemento['lightsaber_color']):
