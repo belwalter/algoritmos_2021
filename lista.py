@@ -89,7 +89,7 @@ class Lista(object):
         # [1, 2, 3, 4, 4, 4, 5, 6,7]
     
     def obtener_elemento(self, pos):
-        if(pos >= 0 ):
+        if(pos >= 0):
             return self.__elementos[pos]
         else:
             return None
@@ -111,6 +111,11 @@ class Lista(object):
     def barrido_stormtrooper(self, numero):
         for elemento in self.__elementos:
             if(elemento['codigo'] % 1000 == numero):
+                print(elemento['legion'], elemento['codigo'])
+    
+    def barrido_stormtrooper_legion(self, legion):
+        for elemento in self.__elementos:
+            if(elemento['legion'] == legion):
                 print(elemento['legion'], elemento['codigo'])
     
     def barrido_green(self):

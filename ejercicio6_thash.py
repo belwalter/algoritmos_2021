@@ -41,6 +41,7 @@ stormtrooper = {'legion': 'FN', 'codigo': 2781}
 pos_numero = hash_numero(2781, len(tabla_numero))
 tabla_numero[pos_numero].insertar(stormtrooper, 'legion')
 
+#! punto C
 pos_legion = hash_legion(stormtrooper['legion'], len(tabla_legion))
 if(tabla_legion[pos_legion]):
     pos = tabla_legion[pos_legion].busqueda(2187, 'codigo')
@@ -48,12 +49,21 @@ if(tabla_legion[pos_legion]):
         print(tabla_legion[pos_legion].obtener_elemento(pos), pos)
         tabla_legion[pos_legion].eliminar(2187, 'codigo')
 
+#! punto D
 print()
 pos_numero = hash_numero(1781, len(tabla_numero))
 tabla_numero[pos_numero].barrido_stormtrooper(781)
 print()
 pos_numero = hash_numero(1537, len(tabla_numero))
 tabla_numero[pos_numero].barrido_stormtrooper(537)
+print()
+
+#! punto E
+pos_legion = hash_legion('CT', len(tabla_legion))
+tabla_legion[pos_legion].barrido()
+print()
+pos_legion = hash_legion('TF', len(tabla_legion))
+tabla_legion[pos_legion].barrido()
 
 # for index, cant_colision in enumerate(tabla_numero):
 #     print(index, cant_colision)
