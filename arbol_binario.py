@@ -1,6 +1,5 @@
 
 
-
 class Arbol(object):
 
     def __init__(self, info=None):
@@ -45,17 +44,85 @@ class Arbol(object):
         if(self.info is not None):
             print(self.info)
             if(self.izq is not None):
+                print('izq de ', self.info) # despiues comentar
                 self.izq.preorden()
             if(self.der is not None):
+                print('der ', self.info) # despiues comentar
                 self.der.preorden()
+
+    def busqueda(self, clave):
+        pos = None
+        if(self.info is not None):
+            if(self.info == clave):
+                pos = self
+            elif(clave < self.info and self.izq is not None):
+                pos = self.izq.busqueda(clave)
+            elif(self.der is not None):
+                pos = self.der.busqueda(clave)
+        return pos
+
+    def remplazar(self):
+        """Determina el nodo que remplazará al que se elimina."""
+        aux = None
+        if(self.der is None):
+            aux = self.info
+            if(self.izq is not None):
+                self.info = self.izq.info
+                self.der = self.izq.der
+                self.izq = self.izq.izq
+            else:
+                self.info = None
+        else:
+            aux = self.der.remplazar()
+        return aux
+
+    def eliminar_nodo(self, clave):
+        """Elimina un elemento del árbol y lo devuelve si lo encuentra."""
+        x = None
+        if(self.info is not None):
+            if(clave < self.info):
+                x = self.izq.eliminar_nodo(clave)
+            elif(clave > self.info):
+                x = self.der.eliminar_nodo(clave)
+            else:
+                x = self.info
+                if(self.der is None and self.izq is None):
+                    self.info = None
+                elif(self.izq is None):
+                    self.info = self.der.info
+                    self.izq = self.der.izq
+                    self.der = self.der.der
+                elif(self.der is None):
+                    self.info = self.izq.info
+                    self.der = self.izq.der
+                    self.izq = self.izq.izq
+                else:
+                    aux = self.izq.remplazar()
+                    self.info = aux
+                    # raiz.info, raiz.nrr = aux.info, aux.nrr
+        return x
 
 
 arbol = Arbol()
-arbol.insertar_nodo(7)
-arbol.insertar_nodo(10)
-arbol.insertar_nodo(1)
-arbol.insertar_nodo(15)
-arbol.insertar_nodo(5)
+arbol.insertar_nodo('F')
+arbol.insertar_nodo('B')
+arbol.insertar_nodo('E')
+arbol.insertar_nodo('C')
+arbol.insertar_nodo('K')
+arbol.insertar_nodo('R')
+arbol.insertar_nodo('H')
+arbol.insertar_nodo('J')
+arbol.insertar_nodo('A')
+
 # print(arbol.izq.info, arbol.izq.izq, arbol.izq.der)
 # print(arbol.arbol_vacio())
-arbol.preorden()
+# arbol.preorden()
+
+# x = arbol.eliminar_nodo('F')
+pos = arbol.busqueda('K')
+if pos:
+    print('elemento encontrado', pos.info)
+
+print()
+print('barrido')
+arbol.inorden()
