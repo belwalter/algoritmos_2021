@@ -44,10 +44,8 @@ class Arbol(object):
         if(self.info is not None):
             print(self.info)
             if(self.izq is not None):
-                print('izq de ', self.info) # despiues comentar
                 self.izq.preorden()
             if(self.der is not None):
-                print('der ', self.info) # despiues comentar
                 self.der.preorden()
 
     def busqueda(self, clave):
@@ -81,9 +79,11 @@ class Arbol(object):
         x = None
         if(self.info is not None):
             if(clave < self.info):
-                x = self.izq.eliminar_nodo(clave)
+                if(self.izq is not None):
+                    x = self.izq.eliminar_nodo(clave)
             elif(clave > self.info):
-                x = self.der.eliminar_nodo(clave)
+                if(self.der is not None):
+                    x = self.der.eliminar_nodo(clave)
             else:
                 x = self.info
                 if(self.der is None and self.izq is None):
@@ -101,28 +101,31 @@ class Arbol(object):
                     self.info = aux
                     # raiz.info, raiz.nrr = aux.info, aux.nrr
         return x
+    
+
+    #! BARRIDO POR NIVEL
 
 
-arbol = Arbol()
-arbol.insertar_nodo('F')
-arbol.insertar_nodo('B')
-arbol.insertar_nodo('E')
-arbol.insertar_nodo('C')
-arbol.insertar_nodo('K')
-arbol.insertar_nodo('R')
-arbol.insertar_nodo('H')
-arbol.insertar_nodo('J')
-arbol.insertar_nodo('A')
+# arbol = Arbol()
+# arbol.insertar_nodo('F')
+# arbol.insertar_nodo('B')
+# arbol.insertar_nodo('E')
+# arbol.insertar_nodo('C')
+# arbol.insertar_nodo('K')
+# arbol.insertar_nodo('R')
+# arbol.insertar_nodo('H')
+# arbol.insertar_nodo('J')
+# arbol.insertar_nodo('A')
 
-# print(arbol.izq.info, arbol.izq.izq, arbol.izq.der)
-# print(arbol.arbol_vacio())
-# arbol.preorden()
+# # print(arbol.izq.info, arbol.izq.izq, arbol.izq.der)
+# # print(arbol.arbol_vacio())
+# # arbol.preorden()
 
-# x = arbol.eliminar_nodo('F')
-pos = arbol.busqueda('K')
-if pos:
-    print('elemento encontrado', pos.info)
+# # x = arbol.eliminar_nodo('F')
+# pos = arbol.busqueda('K')
+# if pos:
+#     print('elemento encontrado', pos.info)
 
-print()
-print('barrido')
-arbol.inorden()
+# print()
+# print('barrido')
+# arbol.inorden()
