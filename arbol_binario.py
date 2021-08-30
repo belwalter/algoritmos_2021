@@ -102,6 +102,34 @@ class Arbol(object):
                     # raiz.info, raiz.nrr = aux.info, aux.nrr
         return x
     
+    def contar_ocurrencias(self, buscado):
+        cantidad = 0
+        if(self.info is not None):
+            if(self.info == buscado):
+                cantidad += 1
+            if(self.izq is not None):
+                cantidad += self.izq.contar_ocurrencias(buscado)
+            if(self.der is not None):
+                cantidad += self.der.contar_ocurrencias(buscado)
+        return cantidad
+    
+    def contar_pares_impares(self):
+        pares, impares = 0, 0
+        if(self.info is not None):
+            if(self.info % 2 == 0):
+                pares += 1
+            else:
+                impares += 1
+            if(self.izq is not None):
+                par, impar = self.izq.contar_pares_impares()
+                pares += par
+                impares += impar
+            if(self.der is not None):
+                par, impar = self.der.contar_pares_impares()
+                pares += par
+                impares += impar
+        return pares, impares
+
 
     #! BARRIDO POR NIVEL
 
