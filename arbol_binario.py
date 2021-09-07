@@ -1,6 +1,7 @@
 
 from cola import Cola
 
+
 class Arbol(object):
 
     def __init__(self, info=None, frecuencia=None):
@@ -8,9 +9,58 @@ class Arbol(object):
         self.frecuencia = frecuencia
         self.der = None
         self.izq = None
+        self._altura = 0
 
     def arbol_vacio(self):
         return self.info is None
+    
+    def altura(self, arbol):
+        if(arbol is None):
+            return -1
+        else:
+            return arbol._altura
+
+    def actualizar_altura(self):
+        if(self is not None):
+            altura_izq = self.altura(self.izq)
+            altura_der = self.altura(self.der)
+            self._altura = (altura_izq if altura_izq > altura_der else altura_der) + 1
+    
+    def rotacion_simple(self, control):
+        if(control):
+            aux = self.izq
+            self.izq = aux.der
+            aux.der = self
+        else:
+            aux = self.der
+            self.der = aux.izq
+            aux.izq = self
+        self.actualizar_altura()
+        aux.actualizar_altura()
+        return aux
+
+    def rotacion_doble(self, control):
+        if(control):
+            self.izq = self.izq.rotacion_simple(False)
+            self = self.rotacion_simple(True)
+        else:
+            self. der = self.der.rotacion_simple(True)
+            self = self.rotacion_simple(False)
+        return self
+
+    def balancear(self):
+        if(self is not None):
+            if(self.altura(self.izq)-self.altura(self.der) == 2):
+                if(self.altura(self.izq.izq) >= self.altura(self.izq.der)):
+                    self = self.rotacion_simple(True)
+                else:
+                    self = self.rotacion_doble(True)
+            elif(self.altura(self.der)-self.altura(self.izq) == 2):
+                if(self.altura(self.der.der) >= self.altura(self.der.izq)):
+                    self = self.rotacion_simple(False)
+                else:
+                    self = self.rotacion_doble(False)
+        return self
 
     def insertar_nodo(self, dato):
         if(self.info is None):
@@ -19,12 +69,15 @@ class Arbol(object):
             if(self.izq is None):
                 self.izq = Arbol(dato)
             else:
-                self.izq.insertar_nodo(dato)
+                self.izq = self.izq.insertar_nodo(dato)
         else:
             if(self.der is None):
                 self.der = Arbol(dato)
             else:
-                self.der.insertar_nodo(dato)
+                self.der = self.der.insertar_nodo(dato)
+        self = self.balancear()
+        self.actualizar_altura()
+        return self
 
     def inorden(self):
         if(self.info is not None):
@@ -44,7 +97,7 @@ class Arbol(object):
 
     def preorden(self):
         if(self.info is not None):
-            print(self.info)
+            print(self.info, self._altura)
             if(self.izq is not None):
                 self.izq.preorden()
             if(self.der is not None):
@@ -132,7 +185,6 @@ class Arbol(object):
                 impares += impar
         return pares, impares
 
-
     def barrido_por_nivel(self):
         pendientes = Cola()
         pendientes.arribo(self)
@@ -142,8 +194,7 @@ class Arbol(object):
             if(nodo.izq is not None):
                 pendientes.arribo(nodo.izq)
             if(nodo.der is not None):
-                pendientes.arribo(nodo.der)
-    
+                pendientes.arribo(nodo.der)    
 
     def barrido_por_nivel_huff(self):
         pendientes = Cola()
@@ -157,7 +208,16 @@ class Arbol(object):
                 pendientes.arribo(nodo.der)
 
 
-# arbol = Arbol()
+arbol = Arbol()
+from random import randint
+for i in range(12):
+    arbol = arbol.insertar_nodo(randint(1, 100))
+print('ok')
+arbol.preorden()
+print()
+# arbol = arbol.balancear()
+# arbol.preorden()
+
 # arbol.insertar_nodo('F')
 # arbol.insertar_nodo('B')
 # arbol.insertar_nodo('E')
