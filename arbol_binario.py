@@ -68,14 +68,14 @@ class Arbol(object):
             self.datos = datos
         elif(dato < self.info):
             if(self.izq is None):
-                self.izq = Arbol(dato)
+                self.izq = Arbol(dato, datos)
             else:
-                self.izq = self.izq.insertar_nodo(dato, datos=None)
+                self.izq = self.izq.insertar_nodo(dato, datos)
         else:
             if(self.der is None):
-                self.der = Arbol(dato)
+                self.der = Arbol(dato, datos)
             else:
-                self.der = self.der.insertar_nodo(dato, datos=None)
+                self.der = self.der.insertar_nodo(dato, datos)
         self = self.balancear()
         self.actualizar_altura()
         return self
@@ -84,7 +84,7 @@ class Arbol(object):
         if(self.info is not None):
             if(self.izq is not None):
                 self.izq.inorden()
-            print(self.info)
+            print(self.info, self.datos)
             if(self.der is not None):
                 self.der.inorden()
 
@@ -126,48 +126,56 @@ class Arbol(object):
 
     def remplazar(self):
         """Determina el nodo que remplazará al que se elimina."""
-        aux = None
+        info, datos = None, None
         if(self.der is None):
-            aux = self.info
+            info = self.info
+            datos = self.datos
             if(self.izq is not None):
                 self.info = self.izq.info
                 self.der = self.izq.der
                 self.izq = self.izq.izq
+                self.datos = self.izq.datos
             else:
                 self.info = None
+                self.datos = None
         else:
-            aux = self.der.remplazar()
-        return aux
+            info, datos = self.der.remplazar()
+        return info, datos
 
     def eliminar_nodo(self, clave):
         """Elimina un elemento del árbol y lo devuelve si lo encuentra."""
-        x = None
+        info, datos = None, None
         if(self.info is not None):
             if(clave < self.info):
                 if(self.izq is not None):
-                    x = self.izq.eliminar_nodo(clave)
+                    info, datos = self.izq.eliminar_nodo(clave)
             elif(clave > self.info):
                 if(self.der is not None):
-                    x = self.der.eliminar_nodo(clave)
+                    info, datos = self.der.eliminar_nodo(clave)
             else:
-                x = self.info
+                info = self.info
+                datos = self.datos
                 if(self.der is None and self.izq is None):
                     self.info = None
+                    self.datos = None
                 elif(self.izq is None):
                     self.info = self.der.info
                     self.izq = self.der.izq
                     self.der = self.der.der
+                    self.datos = self.datos
                 elif(self.der is None):
                     self.info = self.izq.info
                     self.der = self.izq.der
                     self.izq = self.izq.izq
+                    self.datos = self.datos
                 else:
-                    aux = self.izq.remplazar()
-                    self.info = aux
+                    info_aux, datos_aux = self.izq.remplazar()
+                    self.info = info_aux
+                    self.datos = datos_aux
                     # raiz.info, raiz.nrr = aux.info, aux.nrr
         # self = self.balancear()
         self.actualizar_altura()
-        return x
+        return info, datos
     
     def contar_ocurrencias(self, buscado):
         cantidad = 0
@@ -223,40 +231,40 @@ class Arbol(object):
 arbol = Arbol()
 
 
-dato = 'Cronos'
+# dato = 'Cronos'
 
-if(arbol.arbol_vacio()):
-    arbol.info = dato
+# if(arbol.arbol_vacio()):
+#     arbol.info = dato
 
-hijo = 'Cronos'
-padre = 'Cronos'
+# hijo = 'Cronos'
+# padre = 'Cronos'
 
-pos = arbol.busqueda(padre)
-if pos:
-    if(not pos.izq):
-        pos.izq = Arbol(hijo)
-    else:
-        if not pos.izq.der:
-            pos.izq.der = Arbol(hijo)
-        else:
-            aux = pos.izq.der
-            while not aux.der:
-                aux = aux.der
-            aux = Arbol(hijo)
+# pos = arbol.busqueda(padre)
+# if pos:
+#     if(not pos.izq):
+#         pos.izq = Arbol(hijo)
+#     else:
+#         if not pos.izq.der:
+#             pos.izq.der = Arbol(hijo)
+#         else:
+#             aux = pos.izq.der
+#             while not aux.der:
+#                 aux = aux.der
+#             aux = Arbol(hijo)
 
 
-# superheroe = {'name': 'Doctor Strnge', 'villano': False, 'aparicion': 1942}
-# arbol = arbol.insertar_nodo(superheroe['name'], superheroe)
-# superheroe = {'name': 'Capitan America', 'villano': False, 'aparicion': 1942}
-# arbol = arbol.insertar_nodo(superheroe['name'], superheroe)
-# superheroe = {'name': 'Capitana Marvel', 'villano': False, 'aparicion': 1942}
-# arbol = arbol.insertar_nodo(superheroe['name'], superheroe)
-# superheroe = {'name': 'Docasdasdas', 'villano': False, 'aparicion': 1942}
-# arbol = arbol.insertar_nodo(superheroe['name'], superheroe)
-# superheroe = {'name': 'Iron Man', 'villano': False, 'aparicion': 1942}
-# arbol = arbol.insertar_nodo(superheroe['name'], superheroe)
-# superheroe = {'name': 'Iron Hulk', 'villano': False, 'aparicion': 1942}
-# arbol = arbol.insertar_nodo(superheroe['name'], superheroe)
+superheroe = {'name': 'Doctor Strnge', 'villano': False, 'aparicion': 1942}
+arbol = arbol.insertar_nodo(superheroe['name'], superheroe)
+superheroe = {'name': 'Capitan America', 'villano': False, 'aparicion': 1942}
+arbol = arbol.insertar_nodo(superheroe['name'], superheroe)
+superheroe = {'name': 'Capitana Marvel', 'villano': False, 'aparicion': 1942}
+arbol = arbol.insertar_nodo(superheroe['name'], superheroe)
+superheroe = {'name': 'Docasdasdas', 'villano': False, 'aparicion': 1942}
+arbol = arbol.insertar_nodo(superheroe['name'], superheroe)
+superheroe = {'name': 'Iron Man', 'villano': False, 'aparicion': 1942}
+arbol = arbol.insertar_nodo(superheroe['name'], superheroe)
+superheroe = {'name': 'Iron Hulk', 'villano': False, 'aparicion': 1942}
+arbol = arbol.insertar_nodo(superheroe['name'], superheroe)
 
 
 # from random import randint
@@ -266,8 +274,22 @@ if pos:
 # arbol.preorden()
 # print()
 # arbol = arbol.balancear()
-# arbol.inorden()
-# arbol.busqueda_proximidad('C')
+arbol.inorden()
+buscado = input('ingrese lo que desa buscar ')
+arbol.busqueda_proximidad(buscado)
+print()
+buscado = input('ingrese el nombre que desea modificar ')
+pos = arbol.busqueda(buscado)
+if(pos):
+    new_year = int(input('ingrese el nuevo año '))
+    pos.datos['aparicion'] = new_year
+    # nuevo_nombre = input('ingrese el nuevo nombre ')
+    # nombre, superheroe = arbol.eliminar_nodo(buscado)
+    # superheroe['name'] = nuevo_nombre
+    # arbol = arbol.insertar_nodo(nuevo_nombre, superheroe)
+    print()
+
+arbol.inorden()
 
 # pos = arbol.busqueda('Hulk')
 # if pos:
