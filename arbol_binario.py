@@ -4,9 +4,9 @@ from cola import Cola
 
 class Arbol(object):
 
-    def __init__(self, info=None, frecuencia=None):
+    def __init__(self, info=None, datos=None):
         self.info = info
-        self.frecuencia = frecuencia
+        self.datos = datos
         self.der = None
         self.izq = None
         self._altura = 0
@@ -62,19 +62,20 @@ class Arbol(object):
                     self = self.rotacion_doble(False)
         return self
 
-    def insertar_nodo(self, dato):
+    def insertar_nodo(self, dato, datos=None):
         if(self.info is None):
             self.info = dato
+            self.datos = datos
         elif(dato < self.info):
             if(self.izq is None):
                 self.izq = Arbol(dato)
             else:
-                self.izq = self.izq.insertar_nodo(dato)
+                self.izq = self.izq.insertar_nodo(dato, datos=None)
         else:
             if(self.der is None):
                 self.der = Arbol(dato)
             else:
-                self.der = self.der.insertar_nodo(dato)
+                self.der = self.der.insertar_nodo(dato, datos=None)
         self = self.balancear()
         self.actualizar_altura()
         return self
@@ -113,6 +114,15 @@ class Arbol(object):
             elif(self.der is not None):
                 pos = self.der.busqueda(clave)
         return pos
+    
+    def busqueda_proximidad(self, clave):
+        if(self.info is not None):
+            if(self.izq is not None):
+                self.izq.busqueda_proximidad(clave)
+            if(self.info[0:len(clave)] == clave):
+                print(self.info)
+            if(self.der is not None):
+                self.der.busqueda_proximidad(clave)
 
     def remplazar(self):
         """Determina el nodo que remplazará al que se elimina."""
@@ -155,6 +165,8 @@ class Arbol(object):
                     aux = self.izq.remplazar()
                     self.info = aux
                     # raiz.info, raiz.nrr = aux.info, aux.nrr
+        # self = self.balancear()
+        self.actualizar_altura()
         return x
     
     def contar_ocurrencias(self, buscado):
@@ -209,24 +221,70 @@ class Arbol(object):
 
 
 arbol = Arbol()
-from random import randint
-for i in range(12):
-    arbol = arbol.insertar_nodo(randint(1, 100))
-print('ok')
-arbol.preorden()
-print()
-# arbol = arbol.balancear()
-# arbol.preorden()
 
-# arbol.insertar_nodo('F')
-# arbol.insertar_nodo('B')
-# arbol.insertar_nodo('E')
-# arbol.insertar_nodo('C')
-# arbol.insertar_nodo('K')
-# arbol.insertar_nodo('R')
-# arbol.insertar_nodo('H')
-# arbol.insertar_nodo('J')
-# arbol.insertar_nodo('A')
+
+dato = 'Cronos'
+
+if(arbol.arbol_vacio()):
+    arbol.info = dato
+
+hijo = 'Cronos'
+padre = 'Cronos'
+
+pos = arbol.busqueda(padre)
+if pos:
+    if(not pos.izq):
+        pos.izq = Arbol(hijo)
+    else:
+        if not pos.izq.der:
+            pos.izq.der = Arbol(hijo)
+        else:
+            aux = pos.izq.der
+            while not aux.der:
+                aux = aux.der
+            aux = Arbol(hijo)
+
+
+# superheroe = {'name': 'Doctor Strnge', 'villano': False, 'aparicion': 1942}
+# arbol = arbol.insertar_nodo(superheroe['name'], superheroe)
+# superheroe = {'name': 'Capitan America', 'villano': False, 'aparicion': 1942}
+# arbol = arbol.insertar_nodo(superheroe['name'], superheroe)
+# superheroe = {'name': 'Capitana Marvel', 'villano': False, 'aparicion': 1942}
+# arbol = arbol.insertar_nodo(superheroe['name'], superheroe)
+# superheroe = {'name': 'Docasdasdas', 'villano': False, 'aparicion': 1942}
+# arbol = arbol.insertar_nodo(superheroe['name'], superheroe)
+# superheroe = {'name': 'Iron Man', 'villano': False, 'aparicion': 1942}
+# arbol = arbol.insertar_nodo(superheroe['name'], superheroe)
+# superheroe = {'name': 'Iron Hulk', 'villano': False, 'aparicion': 1942}
+# arbol = arbol.insertar_nodo(superheroe['name'], superheroe)
+
+
+# from random import randint
+# for i in range(12):
+#     arbol = arbol.insertar_nodo(randint(1, 100))
+# print('ok')
+# arbol.preorden()
+# print()
+# arbol = arbol.balancear()
+# arbol.inorden()
+# arbol.busqueda_proximidad('C')
+
+# pos = arbol.busqueda('Hulk')
+# if pos:
+#     print(pos.datos['aparicion'])
+#     pos.datos['aparicion'] = 2001
+#     print(pos.datos['aparicion'])
+
+
+# arbol = arbol.insertar_nodo('F')
+# arbol = arbol.insertar_nodo('B')
+# arbol = arbol.insertar_nodo('E')
+# arbol = arbol.insertar_nodo('C')
+# arbol = arbol.insertar_nodo('K')
+# arbol = arbol.insertar_nodo('R')
+# arbol = arbol.insertar_nodo('H')
+# arbol = arbol.insertar_nodo('J')
+# arbol = arbol.insertar_nodo('A')
 
 # arbol.barrido_por_nivel()
 
