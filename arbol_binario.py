@@ -227,9 +227,23 @@ class Arbol(object):
             if(nodo.der is not None):
                 pendientes.arribo(nodo.der)
 
+    def conta_criaturas_derrotadas(self, dic):
+        if(self.info is not None):
+            if(self.izq is not None):
+                self.izq.conta_criaturas_derrotadas(dic)
+            #! chequear que no sea vacio
+            if(self.datos['derrotado _por'] in dic):
+                dic[self.datos['derrotado_por']] += 1
+            else:
+                dic[self.datos['derrotado_por']] = 1
+            print(self.info, self.datos)
+            if(self.der is not None):
+                self.der.conta_criaturas_derrotadas(dic)
 
 arbol = Arbol()
 
+dic = {} #? derrotado_por : cantidad
+arbol.conta_criaturas_derrotadas(dic)
 
 # dato = 'Cronos'
 

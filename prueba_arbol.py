@@ -17,6 +17,7 @@ print()
 
 print('cantidad de pares impares', arbol.contar_pares_impares())
 
+
 # pos = arbol.busqueda(int(input('ingrese el numero a buscar ')))
 # if(pos is not None):
 #     print('el valor esta', pos.info)
