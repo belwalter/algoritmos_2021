@@ -1,15 +1,13 @@
 
 
-class Heap(object):
+class HeapMax(object):
 
     def __init__(self):
         self.elementos = []
         self.tamanio = 0
 
-
     def vacio(self):
         return self.tamanio == 0
-
 
     def agregar(self, datos):
         self.elementos.append(datos)
@@ -27,6 +25,7 @@ class Heap(object):
         self.elementos[0], self.elementos[self.tamanio-1] = self.elementos[self.tamanio-1], self.elementos[0]
         self.tamanio -= 1
         self.hundir()
+        return self.elementos[self.tamanio]
 
     def hundir(self, indice=0):
         hijo_izq = indice * 2 + 1
@@ -48,12 +47,133 @@ class Heap(object):
     def heap_sort(self):
         for i in range(self.tamanio):
             self.quitar()
+    
+    def arribo(self, dato, prioridad):
+        self.agregar([prioridad, dato])
 
-h = Heap()
+    def atencion(self):
+        return self.quitar()
 
-from random import randint
-for i in range(20):
-    h.agregar(randint(0, 100))
+    def monticulizar(self, datos):
+        self.elementos = datos
+        self.tamanio = len(datos)
+        for i in range(self.tamanio):
+            self.flotar(i)
+    
+    def cambiar_prioridad(self, indice, prioridad):
+        prioridad_anterio = self.elementos[indice][0] 
+        self.elementos[indice][0] = prioridad
+        if(prioridad_anterio < prioridad):
+            self.flotar(indice)
+        else:
+            self.hundir(indice)
+
+
+class HeapMin(object):
+    
+    def __init__(self):
+        self.elementos = []
+        self.tamanio = 0
+
+
+    def vacio(self):
+        return self.tamanio == 0
+
+
+    def agregar(self, datos):
+        self.elementos.append(datos)
+        self.flotar(len(self.elementos)-1)
+        self.tamanio += 1
+    
+    def flotar(self, indice):
+        padre = (indice-1) // 2
+        while(indice > 0 and self.elementos[indice] < self.elementos[padre]):
+            self.elementos[indice], self.elementos[padre] = self.elementos[padre], self.elementos[indice]
+            indice = padre
+            padre = (indice-1) // 2
+    
+    def quitar(self):
+        self.elementos[0], self.elementos[self.tamanio-1] = self.elementos[self.tamanio-1], self.elementos[0]
+        self.tamanio -= 1
+        self.hundir()
+        return self.elementos[self.tamanio]
+
+    def hundir(self, indice=0):
+        hijo_izq = indice * 2 + 1
+        control = True
+        while(control and hijo_izq < self.tamanio):
+            hijo_der = hijo_izq + 1
+            aux = hijo_izq
+            if(hijo_der < self.tamanio):
+                if(self.elementos[hijo_der] < self.elementos[hijo_izq]):
+                    aux = hijo_der
+            
+            if(self.elementos[indice] > self.elementos[aux]):
+                self.elementos[indice], self.elementos[aux] = self.elementos[aux], self.elementos[indice]
+                indice = aux
+                hijo_izq = indice * 2 + 1
+            else:
+                control = False
+
+    def heap_sort(self):
+        for i in range(self.tamanio):
+            self.quitar()
+
+    def arribo(self, dato, prioridad):
+        self.agregar([prioridad, dato])
+
+    def atencion(self):
+        return self.quitar()
+    
+    def monticulizar(self, datos):
+        self.elementos = datos
+        self.tamanio = len(datos)
+        for i in range(self.tamanio):
+            self.flotar(i)
+    
+    def cambiar_prioridad(self, indice, prioridad):
+        prioridad_anterio = self.elementos[indice][0] 
+        self.elementos[indice][0] = prioridad
+        if(prioridad_anterio > prioridad):
+            self.flotar(indice)
+        else:
+            self.hundir(indice)
+
+
+
+h = HeapMax()
+
+# datos = [1, 0, 34, 65, 100, 2, 4, 13, 35, 33]
+
+# h.monticulizar(datos)
+# print(h.elementos)
+# h.heap_sort()
+# print(h.elementos)
+datos = [
+    ['juan', 3],
+    ['maria', 3],
+    ['carlos', 2],
+    ['ana', 3],
+    ['tito', 1],
+    ['yoda', 2],
+    ['juana', 3],
+    ['vader', 1],
+]
+
+for nombre, prioridad in datos:
+    h.arribo(nombre, prioridad)
+    # print(h.elementos)
+    # a = input()
+
+print(h.elementos)
+h.cambiar_prioridad(4, 1)
+# print(h.elementos)
+
+# while(not h.vacio()):
+#     print(h.atencion())
+# from random import randint
+# for i in range(20):
+#     h.agregar(randint(0, 100))
 
 print(h.elementos)
 
