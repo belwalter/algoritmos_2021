@@ -240,10 +240,10 @@ class Arbol(object):
             if(self.der is not None):
                 self.der.conta_criaturas_derrotadas(dic)
 
-arbol = Arbol()
+# arbol = Arbol()
 
-dic = {} #? derrotado_por : cantidad
-arbol.conta_criaturas_derrotadas(dic)
+# dic = {} #? derrotado_por : cantidad
+# arbol.conta_criaturas_derrotadas(dic)
 
 # dato = 'Cronos'
 
@@ -267,18 +267,18 @@ arbol.conta_criaturas_derrotadas(dic)
 #             aux = Arbol(hijo)
 
 
-superheroe = {'name': 'Doctor Strnge', 'villano': False, 'aparicion': 1942}
-arbol = arbol.insertar_nodo(superheroe['name'], superheroe)
-superheroe = {'name': 'Capitan America', 'villano': False, 'aparicion': 1942}
-arbol = arbol.insertar_nodo(superheroe['name'], superheroe)
-superheroe = {'name': 'Capitana Marvel', 'villano': False, 'aparicion': 1942}
-arbol = arbol.insertar_nodo(superheroe['name'], superheroe)
-superheroe = {'name': 'Docasdasdas', 'villano': False, 'aparicion': 1942}
-arbol = arbol.insertar_nodo(superheroe['name'], superheroe)
-superheroe = {'name': 'Iron Man', 'villano': False, 'aparicion': 1942}
-arbol = arbol.insertar_nodo(superheroe['name'], superheroe)
-superheroe = {'name': 'Iron Hulk', 'villano': False, 'aparicion': 1942}
-arbol = arbol.insertar_nodo(superheroe['name'], superheroe)
+# superheroe = {'name': 'Doctor Strnge', 'villano': False, 'aparicion': 1942}
+# arbol = arbol.insertar_nodo(superheroe['name'], superheroe)
+# superheroe = {'name': 'Capitan America', 'villano': False, 'aparicion': 1942}
+# arbol = arbol.insertar_nodo(superheroe['name'], superheroe)
+# superheroe = {'name': 'Capitana Marvel', 'villano': False, 'aparicion': 1942}
+# arbol = arbol.insertar_nodo(superheroe['name'], superheroe)
+# superheroe = {'name': 'Docasdasdas', 'villano': False, 'aparicion': 1942}
+# arbol = arbol.insertar_nodo(superheroe['name'], superheroe)
+# superheroe = {'name': 'Iron Man', 'villano': False, 'aparicion': 1942}
+# arbol = arbol.insertar_nodo(superheroe['name'], superheroe)
+# superheroe = {'name': 'Iron Hulk', 'villano': False, 'aparicion': 1942}
+# arbol = arbol.insertar_nodo(superheroe['name'], superheroe)
 
 
 # from random import randint
@@ -288,22 +288,22 @@ arbol = arbol.insertar_nodo(superheroe['name'], superheroe)
 # arbol.preorden()
 # print()
 # arbol = arbol.balancear()
-arbol.inorden()
-buscado = input('ingrese lo que desa buscar ')
-arbol.busqueda_proximidad(buscado)
-print()
-buscado = input('ingrese el nombre que desea modificar ')
-pos = arbol.busqueda(buscado)
-if(pos):
-    new_year = int(input('ingrese el nuevo año '))
-    pos.datos['aparicion'] = new_year
-    # nuevo_nombre = input('ingrese el nuevo nombre ')
-    # nombre, superheroe = arbol.eliminar_nodo(buscado)
-    # superheroe['name'] = nuevo_nombre
-    # arbol = arbol.insertar_nodo(nuevo_nombre, superheroe)
-    print()
+# arbol.inorden()
+# buscado = input('ingrese lo que desa buscar ')
+# arbol.busqueda_proximidad(buscado)
+# print()
+# buscado = input('ingrese el nombre que desea modificar ')
+# pos = arbol.busqueda(buscado)
+# if(pos):
+#     new_year = int(input('ingrese el nuevo año '))
+#     pos.datos['aparicion'] = new_year
+#     # nuevo_nombre = input('ingrese el nuevo nombre ')
+#     # nombre, superheroe = arbol.eliminar_nodo(buscado)
+#     # superheroe['name'] = nuevo_nombre
+#     # arbol = arbol.insertar_nodo(nuevo_nombre, superheroe)
+#     print()
 
-arbol.inorden()
+# arbol.inorden()
 
 # pos = arbol.busqueda('Hulk')
 # if pos:
