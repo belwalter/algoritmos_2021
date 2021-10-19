@@ -75,6 +75,10 @@ class HeapMin(object):
         self.elementos = []
         self.tamanio = 0
 
+    def busqueda(self, buscado):
+        for index in range(self.tamanio):
+            if(self.elementos[index][1][0]==buscado):
+                return index
 
     def vacio(self):
         return self.tamanio == 0
@@ -141,7 +145,7 @@ class HeapMin(object):
 
 
 
-h = HeapMax()
+# h = HeapMax()
 
 # datos = [1, 0, 34, 65, 100, 2, 4, 13, 35, 33]
 
@@ -149,34 +153,34 @@ h = HeapMax()
 # print(h.elementos)
 # h.heap_sort()
 # print(h.elementos)
-datos = [
-    ['juan', 3],
-    ['maria', 3],
-    ['carlos', 2],
-    ['ana', 3],
-    ['tito', 1],
-    ['yoda', 2],
-    ['juana', 3],
-    ['vader', 1],
-]
+# datos = [
+#     ['juan', 3],
+#     ['maria', 3],
+#     ['carlos', 2],
+#     ['ana', 3],
+#     ['tito', 1],
+#     ['yoda', 2],
+#     ['juana', 3],
+#     ['vader', 1],
+# ]
 
-for nombre, prioridad in datos:
-    h.arribo(nombre, prioridad)
-    # print(h.elementos)
-    # a = input()
+# for nombre, prioridad in datos:
+#     h.arribo(nombre, prioridad)
+#     # print(h.elementos)
+#     # a = input()
 
-print(h.elementos)
-h.cambiar_prioridad(4, 1)
+# print(h.elementos)
+# h.cambiar_prioridad(4, 1)
+# # print(h.elementos)
+
+# # while(not h.vacio()):
+# #     print(h.atencion())
+# # from random import randint
+# # for i in range(20):
+# #     h.agregar(randint(0, 100))
+
 # print(h.elementos)
 
-# while(not h.vacio()):
-#     print(h.atencion())
-# from random import randint
-# for i in range(20):
-#     h.agregar(randint(0, 100))
+# h.heap_sort()
 
-print(h.elementos)
-
-h.heap_sort()
-
-print(h.elementos)
+# print(h.elementos)

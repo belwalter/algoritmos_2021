@@ -1,4 +1,8 @@
 from lista import Lista
+from cola import Cola
+from heap import HeapMin
+from pila import Pila
+from math import inf
 
 
 class Grafo(object):
@@ -90,40 +94,121 @@ class Grafo(object):
                     aristas += 1
             ver_origen += 1
 
+    def barrido_amplitud(self, ver_origen):
+        """Barrido en amplitud del grafo."""
+        cola = Cola()
+        while(ver_origen < self.tamanio()):
+            vertice = grafo.inicio.obtener_elemento(ver_origen)
+            if(not vertice['visitado']):
+                vertice['visitado'] = True
+                cola.arribo(vertice)
+                while(not cola.cola_vacia()):
+                    nodo = cola.atencion()
+                    print(nodo['info'])
+                    aristas = 0
+                    while(aristas < nodo['aristas'].tamanio()):
+                        adyacente = nodo['aristas'].obtener_elemento(aristas)
+                        pos_vertice = self.buscar_vertice(adyacente['destino'])
+                        nuevo_vertice = grafo.inicio.obtener_elemento(pos_vertice)
+                        if(not nuevo_vertice['visitado']):
+                            nuevo_vertice['visitado'] = True
+                            cola.arribo(nuevo_vertice)
+                        aristas += 1
+            ver_origen += 1
 
-# def barrido_amplitud(grafo, vertice):
-#     """Barrido en amplitud del grafo."""
-#     cola = Cola()
-#     while(vertice is not None):
-#         if(not vertice.visitado):
-#             vertice.visitado = True
-#             arribo(cola, vertice)
-#             while(not cola_vacia(cola)):
-#                 nodo = atencion(cola)
-#                 print(nodo.info)
-#                 adyacentes = nodo.adyacentes.inicio
-#                 while(adyacentes is not None):
-#                     adyacente = buscar_vertice(grafo, adyacentes.destino)
-#                     if(not adyacente.visitado):
-#                         adyacente.visitado = True
-#                         arribo(cola, adyacente)
-#                     adyacentes = adyacentes.sig
-#         vertice = vertice.sig
+    def marcar_no_visitado(self):
+        """Marca todos losvertices del grafo como no visitados."""
+        for i in range(self.tamanio()):
+            self.inicio.obtener_elemento(i)['visitado'] = False
+
+    def existe_paso(self, ver_origen, ver_destino):
+        """Barrido en profundidad del grafo."""
+        resultado = False
+        vertice = grafo.inicio.obtener_elemento(ver_origen)
+        if(not vertice['visitado']):
+            vertice['visitado'] = True
+            aristas = 0
+            while(aristas < vertice['aristas'].tamanio() and not resultado):
+                arista = vertice['aristas'].obtener_elemento(aristas)
+                pos_vertice = self.buscar_vertice(arista['destino'])
+                nuevo_vertice = grafo.inicio.obtener_elemento(pos_vertice)
+                destino = grafo.inicio.obtener_elemento(ver_destino)
+                if(nuevo_vertice['info'] == destino['info']):
+                    return True
+                else:
+                    resultado = self.existe_paso(pos_vertice, ver_destino)
+                aristas += 1
+        return resultado
+
+    def dijkstra(self, ver_origen, ver_destino):
+        """Algoritmo de Dijkstra para hallar el camino mas corto."""
+        no_visitados = HeapMin()
+        camino = Pila()
+        aux = 0
+        while(aux < self.tamanio()):
+            vertice = grafo.inicio.obtener_elemento(ver_origen)
+            vertice_aux = grafo.inicio.obtener_elemento(aux)
+            vertice_aux['anterior'] = None
+            if(vertice_aux['info'] == vertice['info']):
+                no_visitados.arribo([vertice_aux['info'], None], 0)
+            else:
+                no_visitados.arribo([vertice_aux['info'], None], inf)
+            aux += 1
+        while(not no_visitados.vacio()):
+            dato = no_visitados.atencion()
+            camino.apilar(dato)
+            pos_aux = self.buscar_vertice(dato[1][0])
+            vertice_aux = self.inicio.obtener_elemento(pos_aux)
+            aristas = 0
+            while(aristas < vertice_aux['aristas'].tamanio()):
+                arista = vertice_aux['aristas'].obtener_elemento(aristas)
+                pos_heap = no_visitados.busqueda(arista['destino'])
+                if(pos_heap is not None and no_visitados.elementos[pos_heap][0] > dato[0] + arista['peso']):
+                    no_visitados.elementos[pos_heap][1][1] = dato[1][0]
+                    nuevo_peso = dato[0] + arista['peso']
+                    no_visitados.cambiar_prioridad(pos_heap, nuevo_peso)
+                aristas += 1
+        print(no_visitados.elementos)
+        return camino
+
 
 grafo = Grafo()
-print(grafo.grafo_vacio())
 grafo.insertar_vertice('A')
 grafo.insertar_vertice('C')
 grafo.insertar_vertice('B')
 grafo.insertar_vertice('F')
+grafo.insertar_vertice('Z')
+grafo.insertar_vertice('X')
 
-grafo.insertar_arista(12, 'A', 'A')
-grafo.insertar_arista(1, 'A', 'B')
-grafo.insertar_arista(3, 'C', 'B')
-grafo.insertar_arista(1, 'A', 'F')
-grafo.insertar_arista(1, 'F', 'B')
+grafo.insertar_arista(5, 'A', 'B')
+grafo.insertar_arista(2, 'C', 'B')
+grafo.insertar_arista(3, 'B', 'C')
+grafo.insertar_arista(9, 'A', 'F')
+grafo.insertar_arista(5, 'B', 'F')
+grafo.insertar_arista(13, 'F', 'X')
+grafo.insertar_arista(7, 'X', 'Z')
+grafo.insertar_arista(5, 'C', 'X')
+vertice_destino = grafo.buscar_vertice('Z')
 vertice_origen = grafo.buscar_vertice('A')
-grafo.barrido_profundidad(vertice_origen)
+pila_camino = grafo.dijkstra(vertice_origen, vertice_destino)
+
+destino = 'Z'
+costo = None
+while(not pila_camino.pila_vacia()):
+    dato = pila_camino.desapilar()
+    if(dato[1][0] == destino):
+        if(costo is None):
+            costo = dato[0]
+        print(dato[1][0])
+        destino = dato[1][1]
+print('el costo total del camino es:', costo)
+# print(grafo.existe_paso(vertice_origen, vertice_destino))
+# grafo.barrido_profundidad(vertice_origen)
+# grafo.marcar_no_visitado()
+# print()
+# vertice_origen = grafo.buscar_vertice('F')
+# grafo.barrido_amplitud(vertice_origen)
+
 # grafo.insertar_arista(100, 'B', 'B')
 
 # grafo.inicio.obtener_elemento(0)['aristas'].barrido()
