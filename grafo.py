@@ -3,6 +3,7 @@ from cola import Cola
 from heap import HeapMin
 from pila import Pila
 from math import inf
+from copy import deepcopy
 
 
 class Grafo(object):
@@ -11,17 +12,20 @@ class Grafo(object):
         self.dirigido = dirigido
         self.inicio = Lista()
 
-    def insertar_vertice(self, dato, criterio='info', otro=None):  # ! agregar otro
-        self.inicio.insertar({'info': dato, 'visitado': False, 'aristas': Lista()}, criterio)
+    def insertar_vertice(self, dato, criterio='info', data=None):  # ! agregar otro
+        self.inicio.insertar({'info': dato, 'visitado': False, 'aristas': Lista(), 'data': data}, criterio)
 
 
-    def insertar_arista(self, peso, origen, destino, criterio='destino', otro=None):  # ! agregar otro
+    def insertar_arista(self, peso, origen, destino, criterio='destino', data=None):  # ! agregar otro
         ver_origen = self.inicio.busqueda(origen, 'info')
         ver_destino = self.inicio.busqueda(destino, 'info')
         if(ver_origen != -1 and ver_destino != -1):
-            self.inicio.obtener_elemento(ver_origen)['aristas'].insertar({'peso': peso, 'destino': destino}, criterio)
+            self.inicio.obtener_elemento(ver_origen)['aristas'].insertar({'peso': peso, 'destino': destino, 'data': data}, criterio)
             if(not self.dirigido and origen != destino):
-                self.inicio.obtener_elemento(ver_destino)['aristas'].insertar({'peso': peso, 'destino': origen}, criterio)
+                data_aux = deepcopy(data)
+                if(data):
+                    data_aux['relacion'].reverse()
+                self.inicio.obtener_elemento(ver_destino)['aristas'].insertar({'peso': peso, 'destino': origen, 'data': data_aux}, criterio)
         else:
             print('los vertices origen o destino no estan en el grafo....', origen, destino)
 
@@ -80,7 +84,7 @@ class Grafo(object):
     def barrido_profundidad(self, ver_origen):
         """Barrido en profundidad del grafo."""
         while(ver_origen < self.inicio.tamanio()):
-            vertice = grafo.inicio.obtener_elemento(ver_origen)
+            vertice = self.inicio.obtener_elemento(ver_origen)
             if(not vertice['visitado']):
                 vertice['visitado'] = True
                 print(vertice['info'])
@@ -88,7 +92,7 @@ class Grafo(object):
                 while(aristas < vertice['aristas'].tamanio()):
                     arista = vertice['aristas'].obtener_elemento(aristas)
                     pos_vertice = self.buscar_vertice(arista['destino'])
-                    nuevo_vertice = grafo.inicio.obtener_elemento(pos_vertice)
+                    nuevo_vertice = self.inicio.obtener_elemento(pos_vertice)
                     if(not nuevo_vertice['visitado']):
                         self.barrido_profundidad(pos_vertice)
                     aristas += 1
@@ -98,18 +102,18 @@ class Grafo(object):
         """Barrido en amplitud del grafo."""
         cola = Cola()
         while(ver_origen < self.tamanio()):
-            vertice = grafo.inicio.obtener_elemento(ver_origen)
+            vertice = self.inicio.obtener_elemento(ver_origen)
             if(not vertice['visitado']):
                 vertice['visitado'] = True
                 cola.arribo(vertice)
                 while(not cola.cola_vacia()):
                     nodo = cola.atencion()
-                    print(nodo['info'])
+                    print(nodo['info'], nodo['data'])
                     aristas = 0
                     while(aristas < nodo['aristas'].tamanio()):
                         adyacente = nodo['aristas'].obtener_elemento(aristas)
                         pos_vertice = self.buscar_vertice(adyacente['destino'])
-                        nuevo_vertice = grafo.inicio.obtener_elemento(pos_vertice)
+                        nuevo_vertice = self.inicio.obtener_elemento(pos_vertice)
                         if(not nuevo_vertice['visitado']):
                             nuevo_vertice['visitado'] = True
                             cola.arribo(nuevo_vertice)
@@ -124,15 +128,15 @@ class Grafo(object):
     def existe_paso(self, ver_origen, ver_destino):
         """Barrido en profundidad del grafo."""
         resultado = False
-        vertice = grafo.inicio.obtener_elemento(ver_origen)
+        vertice = self.inicio.obtener_elemento(ver_origen)
         if(not vertice['visitado']):
             vertice['visitado'] = True
             aristas = 0
             while(aristas < vertice['aristas'].tamanio() and not resultado):
                 arista = vertice['aristas'].obtener_elemento(aristas)
                 pos_vertice = self.buscar_vertice(arista['destino'])
-                nuevo_vertice = grafo.inicio.obtener_elemento(pos_vertice)
-                destino = grafo.inicio.obtener_elemento(ver_destino)
+                nuevo_vertice = self.inicio.obtener_elemento(pos_vertice)
+                destino = self.inicio.obtener_elemento(ver_destino)
                 if(nuevo_vertice['info'] == destino['info']):
                     return True
                 else:
@@ -146,8 +150,8 @@ class Grafo(object):
         camino = Pila()
         aux = 0
         while(aux < self.tamanio()):
-            vertice = grafo.inicio.obtener_elemento(ver_origen)
-            vertice_aux = grafo.inicio.obtener_elemento(aux)
+            vertice = self.inicio.obtener_elemento(ver_origen)
+            vertice_aux = self.inicio.obtener_elemento(aux)
             vertice_aux['anterior'] = None
             if(vertice_aux['info'] == vertice['info']):
                 no_visitados.arribo([vertice_aux['info'], None], 0)
@@ -168,7 +172,7 @@ class Grafo(object):
                     nuevo_peso = dato[0] + arista['peso']
                     no_visitados.cambiar_prioridad(pos_heap, nuevo_peso)
                 aristas += 1
-        print(no_visitados.elementos)
+        # print(no_visitados.elementos)
         return camino
 
     def busqueda_prim(self, bosque, buscado):
@@ -187,9 +191,9 @@ class Grafo(object):
             arista = origen['aristas'].obtener_elemento(adyac)
             aristas.arribo([origen['info'], arista['destino']], arista['peso'])
             adyac += 1
-        print(bosque)
-        print(aristas.elementos)
-        print()
+        # print(bosque)
+        # print(aristas.elementos)
+        # print()
         while(len(bosque) // 2 < self.tamanio() and not aristas.vacio()):
             dato = aristas.atencion()
             if(len(bosque) == 0) or ((self.busqueda_prim(bosque, dato[1][0]) is not None) ^ (self.busqueda_prim(bosque, dato[1][1]) is not None)):
@@ -199,40 +203,40 @@ class Grafo(object):
                 adyac = 0
                 while(adyac < nuevo_vertice['aristas'].tamanio()):
                     arista = nuevo_vertice['aristas'].obtener_elemento(adyac)
-                    print(arista)
+                    # print(arista)
                     aristas.arribo([nuevo_vertice['info'], arista['destino']], arista['peso'])
                     adyac += 1
-            print(bosque)
-            print(aristas.elementos)
-            a = input()
+            # print(bosque)
+            # print(aristas.elementos)
+            # a = input()
         return bosque
 
-grafo = Grafo()
-grafo.insertar_vertice('A')
-grafo.insertar_vertice('C')
-grafo.insertar_vertice('B')
-grafo.insertar_vertice('F')
-grafo.insertar_vertice('Z')
-grafo.insertar_vertice('X')
+# grafo = Grafo()
+# grafo.insertar_vertice('A')
+# grafo.insertar_vertice('C')
+# grafo.insertar_vertice('B')
+# grafo.insertar_vertice('F')
+# grafo.insertar_vertice('Z')
+# grafo.insertar_vertice('X')
 
-grafo.insertar_arista(5, 'A', 'B')
-grafo.insertar_arista(2, 'C', 'B')
-grafo.insertar_arista(3, 'B', 'C')
-grafo.insertar_arista(9, 'A', 'F')
-grafo.insertar_arista(5, 'B', 'F')
-grafo.insertar_arista(13, 'F', 'X')
-grafo.insertar_arista(7, 'X', 'Z')
-grafo.insertar_arista(5, 'C', 'X')
-vertice_destino = grafo.buscar_vertice('Z')
-vertice_origen = grafo.buscar_vertice('A')
+# grafo.insertar_arista(5, 'A', 'B')
+# grafo.insertar_arista(2, 'C', 'B')
+# grafo.insertar_arista(3, 'B', 'C')
+# grafo.insertar_arista(9, 'A', 'F')
+# grafo.insertar_arista(5, 'B', 'F')
+# grafo.insertar_arista(13, 'F', 'X')
+# grafo.insertar_arista(7, 'X', 'Z')
+# grafo.insertar_arista(5, 'C', 'X')
+# vertice_destino = grafo.buscar_vertice('Z')
+# vertice_origen = grafo.buscar_vertice('A')
 
-bosque = grafo.prim()
-print('arbol de expansion')
-peso = 0
-for elemento in bosque:
-    print(elemento[1][0], '-', elemento[1][1])
-    peso += elemento[0]
-print('costo total', peso)
+# bosque = grafo.prim()
+# print('arbol de expansion')
+# peso = 0
+# for elemento in bosque:
+#     print(elemento[1][0], '-', elemento[1][1])
+#     peso += elemento[0]
+# print('costo total', peso)
 # pila_camino = grafo.dijkstra(vertice_origen, vertice_destino)
 
 # destino = 'Z'
