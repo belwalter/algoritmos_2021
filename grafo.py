@@ -171,6 +171,41 @@ class Grafo(object):
         print(no_visitados.elementos)
         return camino
 
+    def busqueda_prim(self, bosque, buscado):
+        for elemento in bosque:
+            if(buscado in elemento[1]):
+                return elemento
+
+
+    def prim(self):
+        """Algoritmo de Prim para hallar el árbol de expansión mínimo."""
+        bosque = []
+        aristas = HeapMin()
+        origen = self.inicio.obtener_elemento(0)
+        adyac = 0
+        while(adyac < origen['aristas'].tamanio()):
+            arista = origen['aristas'].obtener_elemento(adyac)
+            aristas.arribo([origen['info'], arista['destino']], arista['peso'])
+            adyac += 1
+        print(bosque)
+        print(aristas.elementos)
+        print()
+        while(len(bosque) // 2 < self.tamanio() and not aristas.vacio()):
+            dato = aristas.atencion()
+            if(len(bosque) == 0) or ((self.busqueda_prim(bosque, dato[1][0]) is not None) ^ (self.busqueda_prim(bosque, dato[1][1]) is not None)):
+                bosque.append(dato)
+                pos_vertice = self.buscar_vertice(dato[1][1])
+                nuevo_vertice = self.inicio.obtener_elemento(pos_vertice)
+                adyac = 0
+                while(adyac < nuevo_vertice['aristas'].tamanio()):
+                    arista = nuevo_vertice['aristas'].obtener_elemento(adyac)
+                    print(arista)
+                    aristas.arribo([nuevo_vertice['info'], arista['destino']], arista['peso'])
+                    adyac += 1
+            print(bosque)
+            print(aristas.elementos)
+            a = input()
+        return bosque
 
 grafo = Grafo()
 grafo.insertar_vertice('A')
@@ -190,18 +225,26 @@ grafo.insertar_arista(7, 'X', 'Z')
 grafo.insertar_arista(5, 'C', 'X')
 vertice_destino = grafo.buscar_vertice('Z')
 vertice_origen = grafo.buscar_vertice('A')
-pila_camino = grafo.dijkstra(vertice_origen, vertice_destino)
 
-destino = 'Z'
-costo = None
-while(not pila_camino.pila_vacia()):
-    dato = pila_camino.desapilar()
-    if(dato[1][0] == destino):
-        if(costo is None):
-            costo = dato[0]
-        print(dato[1][0])
-        destino = dato[1][1]
-print('el costo total del camino es:', costo)
+bosque = grafo.prim()
+print('arbol de expansion')
+peso = 0
+for elemento in bosque:
+    print(elemento[1][0], '-', elemento[1][1])
+    peso += elemento[0]
+print('costo total', peso)
+# pila_camino = grafo.dijkstra(vertice_origen, vertice_destino)
+
+# destino = 'Z'
+# costo = None
+# while(not pila_camino.pila_vacia()):
+#     dato = pila_camino.desapilar()
+#     if(dato[1][0] == destino):
+#         if(costo is None):
+#             costo = dato[0]
+#         print(dato[1][0])
+#         destino = dato[1][1]
+# print('el costo total del camino es:', costo)
 # print(grafo.existe_paso(vertice_origen, vertice_destino))
 # grafo.barrido_profundidad(vertice_origen)
 # grafo.marcar_no_visitado()

@@ -77,8 +77,9 @@ class HeapMin(object):
 
     def busqueda(self, buscado):
         for index in range(self.tamanio):
-            if(self.elementos[index][1][0]==buscado):
+            if(self.elementos[index][1][0] == buscado):
                 return index
+    
 
     def vacio(self):
         return self.tamanio == 0
@@ -100,7 +101,9 @@ class HeapMin(object):
         self.elementos[0], self.elementos[self.tamanio-1] = self.elementos[self.tamanio-1], self.elementos[0]
         self.tamanio -= 1
         self.hundir()
-        return self.elementos[self.tamanio]
+        dato = self.elementos[self.tamanio]
+        self.elementos.pop()
+        return dato
 
     def hundir(self, indice=0):
         hijo_izq = indice * 2 + 1

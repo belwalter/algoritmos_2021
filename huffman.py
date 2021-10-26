@@ -1,6 +1,6 @@
 from arbol_binario import Arbol
 
-tabla = [['A', 0.2], ['F', 0.17], ['1', 0.13], ['3', 0.21], ['0', 0.05], ['M', 0.09], ['T', 0.15]]
+tabla = [['Despejado', 0.22], ['Baja', 0.78]]
 
 dic = {}
 
@@ -74,7 +74,7 @@ def decodificar(cadena_cod, arbol_huff):
     return cadena_deco
 
 
-cadena = "AA31TF0AAAAAAMAM33330A"
+cadena = ["Despejado", "Baja"]
 cadena_cod = codificar(cadena, dic)
 # from sys import getsizeof
 # print(getsizeof(cadena_cod), getsizeof(b'0000011001101111010000000000000101100101101010101101000'))
